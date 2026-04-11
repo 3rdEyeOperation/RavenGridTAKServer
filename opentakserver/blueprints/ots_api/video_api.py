@@ -65,15 +65,7 @@ def download_recording():
             filename = pathlib.Path(recording.segment_path)
             return send_from_directory(filename.parent, filename.name)
         elif request.method == 'DELETE':
-            # Delete video file
-            if os.path.exists(recording.segment_path):
-                os.remove(recording.segment_path)
-            
-            # Delete thumbnail if exists
-            if recording.thumbnail and os.path.exists(recording.thumbnail):
-                os.remove(recording.thumbnail)
-            
-            # Delete from database
+            os.remove(recording.segment_path)
             db.session.delete(recording)
             db.session.commit()
             return jsonify({'success': True})
